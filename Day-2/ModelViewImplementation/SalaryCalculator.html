@@ -8,7 +8,65 @@
 		display: block;
 	}
 	</style>
+	<script>
+		function SalaryCalculator(){
+			this.basic = 0;
+			this.hra = 0;
+			this.da = 0;
+			this.tax = 0;
+			this.salary = 0;
+
+			this.onSalaryChange = undefined;
+		}
+		SalaryCalculator.prototype.calculate = function(){
+			var gross = this.basic + this.hra + this.da;
+			var net = gross * ((100-this.tax)/100);
+			this.salary = net;
+			if (typeof this.onSalaryChange === "function")
+				this.onSalaryChange();
+		}
+	</script>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",init);
+		window.calculator = new SalaryCalculator();
+
+		function init(){
+			/*Respond to UI Changes*/
+			document.getElementById("btnCalculate").addEventListener("click",onBtnCalculateClick);
+			document.getElementById("rangeTax").addEventListener("change",onRangeTaxChange);
+			document.getElementById("txtBasic").addEventListener("change",onTxtBasicChange);
+			document.getElementById("txtHra").addEventListener("change",onTxtHraChange);
+			document.getElementById("txtDa").addEventListener("change",onTxtDaChange);
+
+			/*Model changes*/
+			calculator.onSalaryChange = onSalaryChange;
+
+		}
+		function onSalaryChange(){
+			document.getElementById("divResult").innerHTML = calculator.salary;
+		}
+		function onTxtBasicChange(){
+			calculator.basic = parseInt(document.getElementById("txtBasic").value,10);
+		}
+		function onTxtHraChange(){
+			calculator.hra = parseInt(document.getElementById("txtHra").value,10);
+		}
+		function onTxtDaChange(){
+			calculator.da = parseInt(document.getElementById("txtDa").value,10);
+		}
+		function onRangeTaxChange(){
+			calculator.tax = parseInt(document.getElementById("rangeTax").value,10);
+			document.getElementById("spanTax").innerHTML = this.value + "%";
+		}
+		function onBtnCalculateClick(){
+			calculator.calculate();
+			
+		}
+	})();
+	</script>
 </head>
+
 <body>
 	<h1>Salary Calculator</h1>
 	<hr>
