@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Scope Hierarchy</title>
+	<script src="angular.min.js"></script>
+	<script>
+	function parentController($scope){
+		$scope.emp = {name : "Magesh"}
+	}
+	function childController($scope){
+		$scope.emp = {name : "Suresh"}
+	}
+	</script>
+	<style>
+	.parent{
+		border : 1px solid blue;
+		padding : 10px;
+	}
+	.child {
+		border : 1px solid red;
+		padding : 10px;
+	}
+	</style>
+</head>
+<body data-ng-app>
+	<div class="parent" data-ng-controller="parentController">
+		<h2>Parent Controller</h2>
+		<input type="text" data-ng-model="emp.name">
+		<div>{{emp.name}}</div>
+		<div class="child" data-ng-controller="childController">
+			<h3>Child Controller</h3>
+			<input type="text" data-ng-model="emp.name">
+			<div>{{emp.name}}</div>
+		</div>
+	</div>
+</body>
+</html>

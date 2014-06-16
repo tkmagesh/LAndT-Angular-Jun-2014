@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Greeting App</title>
+	<script src="angular.min.js"></script>
+	<script>
+	function greetController($scope){
+		console.log(typeof $scope);
+		function generateGreetMessage(){
+			$scope.message = "Hello " + $scope.name;
+		}
+		$scope.generateGreetMessage = generateGreetMessage;
+	}
+	</script>
+</head>
+<body data-ng-app data-ng-controller="greetController">
+	<input type="text" data-ng-model="name">
+	<input type="button" value="Greet" data-ng-click="generateGreetMessage()">
+	<div>{{message}}</div>
+</body>
+
+</html>
