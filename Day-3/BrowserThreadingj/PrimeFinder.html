@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prime Finder</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",init);
+		function init(){
+			document.getElementById("btnFindPrimes").addEventListener("click",onBtnFindPrimesClick);
+		}
+		function onBtnFindPrimesClick(){
+			var start = parseInt(document.getElementById('txtStart').value,10),
+				end = parseInt(document.getElementById('txtEnd').value,10);
+			findPrimes(start,end,onProgressCallback);
+		}
+		function onProgressCallback(primeCount, percentCompleted){
+			displayMessage(primeCount + " prime numbers are found");
+			document.getElementById("progress").value = percentCompleted;
+		}
+		function displayMessage(msg){
+			document.getElementById("divMessage").innerHTML = msg;
+		}
+		function findPrimes(start,end,onProgressCallback){
+			var currentNumber = start,
+				primeCount = 0;
+				reportDelta = (end - start) / 100;
+				percentCompleted = 0;
+			function oneIteration(){
+				if (isPrime(currentNumber)){
+					primeCount++;
+				}
+				percentCompleted = ((currentNumber - start)/(end-start)) * 100;
+				if (typeof onProgressCallback === "function"){
+					onProgressCallback(primeCount, percentCompleted);
+				}
+				if (++currentNumber < end){
+					if ((currentNumber - start) % 10 === 0){
+						setTimeout(oneIteration);
+					} else {
+						oneIteration();
+					}
+				}
+			}
+			oneIteration();
+		}
+		function isPrime(n){
+			for(var i=2;i<=(n/2);i++)
+				if (n % i === 0)
+					return false;
+			return true;
+		}
+	})();
+	</script>
+</head>
+<body>
+	<h1>Prime Finder</h1>
+	<hr>
+	<span>Start :</span>
+	<input type="text" name="" id="txtStart">
+	<span> End :</span>
+	<input type="text" name="" id="txtEnd">
+	<input type="button" value="Find Primes" id="btnFindPrimes">
+	<br>
+	<progress id="progress" min="0" max="100" value="0"></progress>
+	<div id="divMessage"></div>
+</body>
+</html>
