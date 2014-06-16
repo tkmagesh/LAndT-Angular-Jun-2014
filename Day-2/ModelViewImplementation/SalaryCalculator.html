@@ -18,12 +18,15 @@
 			}
 
 			this.triggerChange = function(attrName){
-				try {
-					var subscriptionFns = this.subscribers[attrName] || [];
-					for(var i=0;i<subscriptionFns.length;i++)
-						subscriptionFns[i]();
-				}
+				var subscriptionFns = this.subscribers[attrName] || [];
+				for(var i=0;i<subscriptionFns.length;i++)
+					setTimeout((function(index){
+						return function(){
+							subscriptionFns[index]();	
+						}
+					})(i));
 			}
+			
 
 			this.set = function(attrName,value){
 				data[attrName] = value;
