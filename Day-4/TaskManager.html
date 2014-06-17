@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<style type="text/css">
+		.completed {
+			color : red;
+			text-decoration: line-through;
+			font-style: italic;
+		}
+	</style>
+	<script src="angular.min.js"></script>
+	<script>
+	
+	var myApp = angular.module('myApp',[]);
+	myApp.factory('taskStorage',function getTaskStorage(){
+		var taskStorage = {
+			getAll : function(){
+				var result = [];
+				for(var i=0;i<window.localStorage.length;i++){
+					var key = window.localStorage.key(i);
+					var task = JSON.parse(window.localStorage.getItem(key));
+					result.push(task);
+				}	
+				return result;
+			},
+			add : function(taskName){
+				var newTask = {id : new Date().getTime().toString(), name : taskName, isCompleted : false};
+				window.localStorage.setItem(newTask.id, window.JSON.stringify(newTask));
+				return newTask;
+			},
+			update : function(task){
+				var taskFromStorage = JSON.parse(window.localStorage.getItem(task.id));
+				taskFromStorage.name = task.name;
+				taskFromStorage.isCompleted = task.isCompleted;
+				window.localStorage.setItem(taskFromStorage.id, window.JSON.stringify(taskFromStorage));
+			},
+			remove : function(taskId){
+				window.localStorage.removeItem(taskId);
+			}
+		};
+		return taskStorage;
+	});
+	myApp.controller('taskController',function taskController($scope,taskStorage){
+
+		//var taskStorage = getTaskStorage();
+		var items = taskStorage.getAll();
+		var tasks = {};
+		tasks.addTask = function(taskName){
+			var newTask = taskStorage.add(taskName);
+			items.push(newTask);
+		}
+		
+		tasks.getTasks = function(){
+			return items;
+		}
+		tasks.toggleCompletion = function(task){
+			task.isCompleted = !task.isCompleted;
+			taskStorage.update(task);
+		};
+		
+		tasks.getCompletedTaskCount = function(){
+			return items.reduce(function(seed,task){
+				return task.isCompleted ? ++seed : seed;
+			},0);
+		};
+		tasks.removeCompleted = function(){
+			for(var i=items.length-1;i>=0;i--){
+				if (items[i].isCompleted){
+					items.splice(i,1);
+					taskStorage.remove(items[i].id);
+				}
+			}
+		}
+		
+		$scope.tasks = tasks;
+	});
+
+	myApp.filter('trimName',function(){
+		return function(value,trimLength){
+			return value.length > trimLength ? value.substr(0,trimLength) + "..." : value;
+		}
+	});
+
+	</script>
+</head>
+<body ng-app="myApp" data-ng-controller="taskController">
+	<h1>Task Manager</h1>
+	<div>Search : <input type="text" data-ng-model="searchTerm.name"></div>
+	<div>Task Name Length Limit : 
+		<select data-ng-model="taskNameLength">
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+			<option value="40">40</option>
+		</select>
+	</div>
+	<hr>
+	<span>Task :</span>
+	<input type="text" data-ng-model="newTask">
+	<input type="button" value="Add Task" data-ng-click="tasks.addTask(newTask)">
+	<input type="button" name="" id="" value="Remove Completed" data-ng-click="tasks.removeCompleted()">
+	<ol>
+		<li data-ng-repeat="item in tasks.getTasks() | filter:searchTerm" data-ng-click="tasks.toggleCompletion(item)" data-ng-class="{completed : item.isCompleted}">{{item.name | trimName:taskNameLength}}</li>
+	</ol>
+	<div>
+		<div>Total #: {{tasks.getTasks().length}}</div>
+		<div>Completed #: {{tasks.getCompletedTaskCount()}}</div>
+	</div>
+</body>
+</html>
