@@ -1,3 +1,6 @@
+﻿@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +13,7 @@
 			font-style: italic;
 		}
 	</style>
-	<script src="angular.min.js"></script>
+	<script src="/public/scripts/angular.min.js"></script>
 	<script>
 	
 	angular
@@ -28,7 +31,7 @@
 			/********************************/
 			return Task;
 		})
-		.service('taskStorage',['Task','$window',function TaskStorage(Task,$window){
+		/*.service('taskStorage',['Task','$window',function TaskStorage(Task,$window){
 			this.getAll = function(){
 				var result = [];
 				for(var i=0;i<$window.localStorage.length;i++){
@@ -52,13 +55,32 @@
 			this.remove = function(taskId){
 				$window.localStorage.removeItem(taskId);
 			};
-		}])
-		.controller('taskController',function taskController($scope,taskStorage){
-			var items = taskStorage.getAll();
+		}])*/
+        .service('taskService', function TaskService($http, $q, Task) {
+            this.getAll = function () {
+                var deferred = $q.defer();
+
+                var promise = $http({ method: "get", url: "/Home/Tasks" });
+                promise.success(function (data) {
+                    deferred.resolve(data.map(function (d) { return new Task(d); }));
+                });
+                return deferred.promise;
+            };
+            this.add = function (taskName) {
+                return $http({ method: "post", url: "/Home/Add", data: { taskName: taskName } });
+            }
+        })
+		.controller('taskController',function taskController($scope,Task,taskService){
+		    var items = [];
+		    var p = taskService.getAll().then(function (data) {
+		        items = data;
+		    });
+
 			var tasks = {};
 			tasks.addTask = function(taskName){
-				var newTask = taskStorage.add(taskName);
-				items.push(newTask);
+			    taskService.add(taskName).success(function(data) {
+			        items.push(new Task(data));
+			    });;
 			}
 			
 			tasks.getTasks = function(){
@@ -66,10 +88,11 @@
 			}
 			tasks.toggleCompletion = function(task){
 				task.toggleCompletion();
-				taskStorage.update(task);
+				//taskStorage.update(task);
 			};
 			
-			tasks.getCompletedTaskCount = function(){
+			tasks.getCompletedTaskCount = function () {
+			    console.log(items);
 				return items.reduce(function(seed,task){
 					return task.isCompleted ? ++seed : seed;
 				},0);
