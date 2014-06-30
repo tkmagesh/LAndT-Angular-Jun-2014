@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<style>
+	.completed {
+		color : red;
+		text-decoration: line-through;
+		font-style : italic;
+	}
+	</style>
+	<script>
+	var origProps = [];
+	for(var k in window) origProps.push(k);	
+	</script>
+	<script src="require.js" data-main="app-main.js"></script>
+	<script type="text/template" id="TaskManagerTemplate">
+		<h1>Task Manager</h1>
+		<hr>
+		<span>Task :</span>
+		<input type="text" name="" id="txtTask">
+		<input type="button" value="Add Task" id="btnAddTask">
+		<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+		<ul id="ulTaskList"></ul>
+	</script>
+</head>
+<body>
+	
+	<script>
+	console.log("new window objects...");
+	for(var k in window) if (origProps.indexOf(k) == -1) console.log(k);
+	</script>
+</body>
+</html>

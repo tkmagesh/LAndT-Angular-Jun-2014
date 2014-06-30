@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<style type="text/css">
+	label {
+		display: block;
+	}
+	#divResult{
+		font-size: 22pt;
+	}
+	</style>
+	<script src="jquery-1.11.0.js"></script>
+	<script>
+	/*Model*/
+	function SalaryCalculator(){
+		/*this.basic = 0;
+		this.hra = 0;
+		this.da = 0;
+		this.tax = 0;*/
+		
+		//this.onSalaryChange = null;
+
+		var onChangeCallbacks = {};
+		this.addOnChange = function(attrName,callback){
+			if (typeof onChangeCallbacks[attrName] === "undefined")
+				onChangeCallbacks[attrName] = [];
+			onChangeCallbacks[attrName].push(callback);				
+		};
+
+		var _salary = 0;
+		this.salary = function(val){
+			if (typeof val === "undefined") return _salary;
+			_salary = val;
+			this.triggerChange("salary",_salary);
+		};
+
+		this.triggerChange = function(attrName){
+			var callbacks = onChangeCallbacks[attrName] || [];
+			var that = this;
+			for(var i=0;i<callbacks.length;i++){
+				var callback = callbacks[i];
+
+				setTimeout((function(index,args){
+					 return function(){
+   						callbacks[index].apply(that,Array.prototype.slice.call(args,1));
+					 }
+				})(i,arguments));
+			}
+		}
+
+		var _basic = 0;
+		this.basic = function(val){
+			if (typeof val === "undefined") return _basic;
+			_basic = val;
+			this.triggerChange("basic",_basic);
+		}
+		
+		var _hra = 0;
+		this.hra = function(val){
+			if (typeof val === "undefined") return _hra;
+			_hra = val;
+			this.triggerChange("hra",_hra);
+		}
+
+		var _da = 0;
+		this.da = function(val){
+			if (typeof val === "undefined") return _da;
+			_da = val;
+			this.triggerChange("da",_da);
+		}
+
+		var _tax = 0;
+		this.tax = function(val){
+			if (typeof val === "undefined") return _tax;
+			_tax = val;
+			this.triggerChange("tax",_tax);
+		}
+
+	}
+	SalaryCalculator.prototype.calculate = function(){
+		var gross = this.basic() + this.hra() + this.da();
+		var net = gross * ((100-this.tax())/100);
+		this.salary(net);
+		//if (typeof this.onSalaryChange === "function") this.onSalaryChange();
+		
+	}
+	</script>
+	<script>
+	/* Views */
+	function SalaryCalculatorView(model){
+		this.model = model;
+		this.template = '<div class="content">		<div><label for="">Basic :</label><input type="text" name="" id="txtBasic"></div>		<div><label for="">Hra :</label><input type="text" name="" id="txtHra"></div>		<div><label for="">Da :</label><input type="text" name="" id="txtDa"></div>		<div>			<label for="">Tax :</label>			<input type="range" name="" id="rangeTax" min="0" max="50" value="10">			<span id="spanTax">[Tax%]</span>		</div>		<div><input type="button" value="Calculate" id="btnCalculate"></div>		<div>			<div id="divResult">Rs.0.00</div>		</div>	</div>';
+		this.$root = $("<div>");
+		this.render = function(){
+			this.$root.append($(this.template));
+			return this;
+		};
+		var that = this;
+
+		this.init = function(){
+			that.model.addOnChange("salary", function(salary){
+				//console.log("this in onChange(salary) is", this);
+				$("#divResult",that.$root).html(salary);
+			});
+			
+			that.model.addOnChange("basic", function(basic){
+				$("#txtBasic",that.$root).val(basic);
+			});
+
+			that.model.addOnChange("hra", function(){
+				$("#txtHra",that.$root).val(that.model.hra());
+			});
+
+			that.model.addOnChange("da", function(){
+				$("#txtDa",that.$root).val(that.model.da());
+			});
+
+			that.model.addOnChange("tax", function(){
+				$("#rangeTax",that.$root).val(that.model.tax());
+				$("#spanTax",that.$root).html(that.model.tax() + "%");
+			});
+
+			/*Control (View) events*/
+			$(this.$root).on("change","#txtBasic",function(){
+				that.model.basic(parseInt(this.value,10));
+			});
+			
+			$(this.$root).on("change","#txtHra",function(){
+				that.model.hra(parseInt(this.value,10));
+			});
+			
+			$(this.$root).on("change", "#txtDa", function(){
+				that.model.da(parseInt(this.value,10));
+			});
+			
+			$(this.$root).on("change","#rangeTax",function(){
+				that.model.tax(parseInt(this.value,10));
+			});
+
+			$(this.$root).on("click","#btnCalculate",function(){
+				that.model.calculate();
+				//$("#divResult").html(salary);
+			});
+		}
+	}
+
+	function SalaryCalculatorLogView(model){
+		this.model = model;
+		this.$root = $("<ul>");
+		var that = this;
+		this.init = function(){
+			this.model.addOnChange("salary",function(salary){
+				that.$root.append("<li>" + salary + "</li>");
+			});
+		};
+		this.render = function(){
+			return this;
+		}
+	}
+
+	$(function(){
+		window.calculator = new SalaryCalculator();
+
+		var view1 = new SalaryCalculatorView(calculator);
+		view1.init();
+		view1.render().$root.appendTo(document.body);
+
+		var view2 = new SalaryCalculatorLogView(calculator);
+		view2.init();
+		view2.render().$root.appendTo(document.body);		
+	})
+	
+	</script>
+</head>
+<body>
+	<h3>Salary Calculator</h3>
+	<hr>
+	<input type="button" value="Dummy" id="btnDummy">
+</body>
+</html>

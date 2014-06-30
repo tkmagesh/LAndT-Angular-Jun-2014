@@ -10,6 +10,7 @@
 			font-style: italic;
 		}
 	</style>
+	<script async></script>
 	<script src="angular.min.js"></script>
 	<script>
 	
@@ -53,6 +54,11 @@
 				$window.localStorage.removeItem(taskId);
 			};
 		}])
+		.directive('myDirective',function(){
+			return function($scope,$element,$attr){
+				console.dir(arguments);
+			}
+		})
 		.controller('taskController',function taskController($scope,taskStorage){
 			var items = taskStorage.getAll();
 			var tasks = {};
@@ -106,8 +112,8 @@
 		</select>
 	</div>
 	<hr>
-	<span>Task :</span>
-	<input type="text" data-ng-model="newTask">
+	<span >Task :</span>
+	<input type="text" data-ng-model="newTask" my-Directive>
 	<input type="button" value="Add Task" data-ng-click="tasks.addTask(newTask)">
 	<input type="button" name="" id="" value="Remove Completed" data-ng-click="tasks.removeCompleted()">
 	<ol>

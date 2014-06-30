@@ -1,0 +1,7 @@
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\bin\Debug\GreetingAppTests.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\bin\Debug\GreetingAppTests.pdb
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\obj\Debug\GreetingAppTests.csprojResolveAssemblyReference.cache
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\obj\Debug\GreetingAppTests.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\obj\Debug\GreetingAppTests.pdb
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\bin\Debug\GreetingApp.exe
+D:\Training\LAndT-Angular-Jun-2014\Day-6\UnitTestingConcepts\GreetingApp\GreetingAppTests\bin\Debug\GreetingApp.pdb

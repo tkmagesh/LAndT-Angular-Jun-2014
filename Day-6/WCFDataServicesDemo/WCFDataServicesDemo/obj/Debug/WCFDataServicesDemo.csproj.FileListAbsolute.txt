@@ -1,0 +1,17 @@
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\WCFDataServicesDemo.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\WCFDataServicesDemo.pdb
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\EntityFramework.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.Edm.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.OData.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.Services.Client.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.Services.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\System.Spatial.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\EntityFramework.xml
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.Edm.xml
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.OData.xml
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.Services.xml
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\Microsoft.Data.Services.Client.xml
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\bin\System.Spatial.xml
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\obj\Debug\WCFDataServicesDemo.csprojResolveAssemblyReference.cache
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\obj\Debug\WCFDataServicesDemo.dll
+D:\Training\LAndT-Angular-Jun-2014\Day-6\WCFDataServicesDemo\WCFDataServicesDemo\obj\Debug\WCFDataServicesDemo.pdb
